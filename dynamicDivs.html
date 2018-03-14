@@ -1,0 +1,123 @@
+<!-- 
+	Created by: Nino Yaghoubi,
+	Github: https://github.com/ninoyaghoubi,
+	Date: 3/14/2018,
+	Description: this project allows users to punch in 4 values: initial height, initial width, decrement initial div by %, and the max value to shrink the div too
+	then after the generate div button is clicked, an array of divs will be created depending on the user's input and will be displayed on the screen showing the shrinking pattern.
+	This can be used to create a reducing number of divs that are symmetrical in their dimensions. 
+-->
+
+<html>
+	<head>
+
+		<!-- STYLING SHEET -->
+		<style>
+
+			#child {
+				position:  absolute;
+				top: 150px;
+			}
+			.text {
+				float: left;
+			}
+			.input{
+				float: left;
+				margin: 10px;
+			}
+			.heading{
+				padding: 10px;
+			}
+		</style>
+
+	</head>
+	<body>
+
+			<div>
+				<h1 class="heading"> Dynamic div generator with symmetrical dimensions </h1>
+				<p class="text"> Enter height in PX: </p>
+				<input id="height" class="input" value="800" type="number"/>
+				<p class="text"> Enter Width in PX:</p>
+				<input id="width" class="input" value="600" type="number"/>
+				<p class="text"> Decremented div size in %: </p>
+				<input id="percent" class="input" value="95" type="number" max="99" min="1"/>
+				<p class="text"> Reduce div to PX: </p>
+				<input  id="pixle" class="input" value="200" type="number"/>
+				<button id="enter" class="input" onclick="divShrinker()"> Generate Divs </button>
+			</div>
+
+			<div id="mainBox"></div>
+			<div id="child"></div>
+
+			<span id="height"></span>
+			<span id="width"></span>
+
+	</body>
+ 	<script>
+
+    function divShrinker(){
+
+
+				var self = this;
+				//Empty page to clear any previous built divs
+				document.getElementById('child').innerHTML = "";
+    	
+	 		//GET HEIGHT
+     	self.height = document.getElementById('height').value;
+
+      //GET WIDTH
+      self.width = document.getElementById('width').value;
+
+      //GET PERCENT DECREASE
+      var decrementPercent = document.getElementById('percent').value;
+
+      //GET PIXLE
+      var pixles = document.getElementById('pixle').value;
+   
+   		//find out if height or width has the bigger value, then send the biggest value to be evaluated with the (var pixles) and shrink it to the desired value
+   		if(height >= width) {
+
+  		looper(height)
+  		}
+  		else {
+				looper(width);
+  		};
+
+  		function looper (value){
+
+  			var myvalue = value;
+
+  			//while myvalue is less than desired pixle size: loop
+  			while (myvalue > pixles){
+
+  				//reduce myvalue by the desired decrementPercent
+      		myvalue = (decrementPercent/ 100) * myvalue
+
+      		//Create new div
+      		var div = document.createElement('div');
+      	
+      		//Set the new height and width value to the new div
+					self.height = div.style.height = ((decrementPercent / 100) * self.height); 
+					self.width = div.style.width = ((decrementPercent / 100) * self.width); 
+					
+					//Write the values of its height and width within the div
+					div.innerHTML = "height: "+self.height+ " width: "+self.width;
+				
+					//Create a random color for the div
+					div.style.background = getRandomColor();
+
+					function getRandomColor() {
+					  var letters = '0123456789ABCDEF';
+					  var color = '#';
+					  for (var i = 0; i < 6; i++) {
+					    color += letters[Math.floor(Math.random() * 16)];
+					  }
+					  return color;
+					}
+
+					//Add the div to child div
+					document.getElementById('child').appendChild(div);
+      	}
+  		}
+		}
+  </script>
+</html>
